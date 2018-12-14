@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source /etc/apache2/envvars
+mkdir /var/run/apache2
+
+a2enmod ssl
+a2enmod cosign
+a2enmod proxy proxy_balancer proxy_hcheck lbmethod_byrequests proxy_http headers proxy_connect proxy_html
+
+apache2 -DFOREGROUND
