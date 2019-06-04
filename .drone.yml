@@ -1,0 +1,24 @@
+---
+kind: pipeline
+name: default
+
+steps:
+- name: build
+  image: docker
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: DOCKER_PASSWORD
+  commands:
+  - export DOCKER_HOST=unix:///var/run/host.sock
+  - docker login -u 'robot$drone' -p $DOCKER_PASSWORD harbor.dsrd.libraries.psu.edu
+  - docker build -t harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess:$DRONE_BUILD_NUMBER . 
+  - docker tag harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/apache-docker-webaccess:latest
+  - docker push harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess
+  volumes:
+  - name: docker-sock
+    path: /var/run/host.sock
+  
+volumes:
+- name: docker-sock
+  host:
+    path: /var/run/docker.sock
