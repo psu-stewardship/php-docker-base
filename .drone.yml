@@ -11,9 +11,9 @@ steps:
   commands:
   - export DOCKER_HOST=unix:///var/run/host.sock
   - docker login -u 'robot$drone' -p $DOCKER_PASSWORD harbor.dsrd.libraries.psu.edu
-  - docker build -t harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess:$DRONE_BUILD_NUMBER . 
-  - docker tag harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/apache-docker-webaccess:latest
-  - docker push harbor.dsrd.libraries.psu.edu/library/apache-docker-webaccess
+  - docker build -t harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:$DRONE_BUILD_NUMBER . 
+  - docker tag harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:latest
+  - docker push harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess
   volumes:
   - name: docker-sock
     path: /var/run/host.sock
