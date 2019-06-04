@@ -5,6 +5,7 @@ LABEL maintainer="djb44@psu.edu"
 COPY webaccess_3.3.0_amd64.deb /tmp
 RUN apt-get update \
     && apt-get install apache2 libssl1.0.0 libssl-dev -y \
+    && apt-get upgrade -y  \
     && rm -rf /var/lib/apt/lists/* 
 RUN dpkg -i /tmp/webaccess_3.3.0_amd64.deb
 COPY apache-foreground /usr/local/bin
