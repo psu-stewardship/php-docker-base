@@ -22,3 +22,8 @@ volumes:
 - name: docker-sock
   host:
     path: /var/run/docker.sock
+---
+kind: signature
+hmac: f3d7d5fd4c7116b9fd79908b179a18374e0c6a658ff37785c16044464fa7f23b
+
+...
