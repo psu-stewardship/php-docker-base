@@ -16,16 +16,6 @@ steps:
   - name: docker-sock
     path: /var/run/host.sock
 
-- name: build-tagged
-  <<: *build_docker
-  image: docker
-  when:
-    event: [ tag ]
-  environment:
-    DOCKER_TAG: $DRONE_TAG
-    DOCKER_PASSWORD:
-      from_secret: DOCKER_PASSWORD
-  
 volumes:
 - name: docker-sock
   host:
