@@ -3,8 +3,12 @@ kind: pipeline
 name: default
 
 build_docker: &build_docker
+steps:
+- name: build
+  image: docker
   commands:
   - export DOCKER_HOST=unix:///var/run/host.sock
+  - if [[ $DRONE_TAG ]]; then export DOCKER_TAG=$DRONE_TAG; else export DOCKER_TAG=$DRONE_BUILD_NUMBER; fi 
   - docker login -u 'robot$drone' -p $DOCKER_PASSWORD harbor.dsrd.libraries.psu.edu
   - docker build -t harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:$DOCKER_TAG . 
   - docker tag harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:$DOCKER_TAG harbor.dsrd.libraries.psu.edu/public/apache-docker-webaccess:latest
@@ -12,19 +16,6 @@ build_docker: &build_docker
   volumes:
   - name: docker-sock
     path: /var/run/host.sock
-
-steps:
-- name: build
-  <<: *build_docker
-  commands:
-  - export DOCKER_TAG $DRONE_BUILD_NUMBER
-  image: docker
-  when:
-    branch: [ master ]
-  environment:
-    DOCKER_TAG: $DRONE_BUILD_NUMBER
-    DOCKER_PASSWORD:
-      from_secret: DOCKER_PASSWORD
 
 - name: build-tagged
   <<: *build_docker
