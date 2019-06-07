@@ -2,7 +2,6 @@
 kind: pipeline
 name: default
 
-build_docker: &build_docker
 steps:
 - name: build
   image: docker
