@@ -15,6 +15,7 @@ build_docker: &build_docker
 
 steps:
 - name: build
+  <<: *build_docker
   image: docker
   when:
     branch: [ master ]
@@ -24,6 +25,7 @@ steps:
       from_secret: DOCKER_PASSWORD
 
 - name: build-tagged
+  <<: *build_docker
   image: docker
   when:
     event: [ tag ]
