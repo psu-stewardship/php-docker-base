@@ -16,6 +16,8 @@ build_docker: &build_docker
 steps:
 - name: build
   <<: *build_docker
+  commands:
+  - export DOCKER_TAG $DRONE_BUILD_NUMBER
   image: docker
   when:
     branch: [ master ]
